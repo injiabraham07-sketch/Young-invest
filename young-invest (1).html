@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Young Invest — Funding for young builders worldwide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  :root{
+    --ink:#111827;
+    --bg:#FFFFFF;
+    --soft:#F9FAFB;
+    --border:#E5E7EB;
+    --coral:#FF5C3B;
+    --slate:#6B7280;
+  }
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{text-decoration:none;color:inherit;}
+  ::selection{background:var(--coral);color:#fff;}
+  :focus-visible{outline:2px solid var(--coral);outline-offset:3px;}
+  .wrap{max-width:680px;margin:0 auto;padding:0 24px;}
+
+  /* NAV */
+  nav{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);z-index:100;}
+  .logo{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;}
+  .logo em{color:var(--coral);font-style:normal;}
+  .nav-btn{background:var(--coral);color:#fff;padding:9px 18px;border-radius:8px;font-size:14px;font-weight:600;transition:opacity .2s;}
+  .nav-btn:hover{opacity:0.85;}
+
+  /* HERO */
+  .hero{text-align:center;padding:72px 24px 64px;}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,5vw,48px);font-weight:700;line-height:1.15;margin-bottom:18px;}
+  .hero h1 em{color:var(--coral);font-style:normal;}
+  .hero p{font-size:17px;color:var(--slate);max-width:480px;margin:0 auto 32px;}
+  .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+  .btn-dark{background:var(--ink);color:#fff;padding:13px 24px;border-radius:8px;font-size:15px;font-weight:600;transition:opacity .2s;display:inline-block;}
+  .btn-dark:hover{opacity:0.8;}
+  .btn-outline{border:1.5px solid var(--border);color:var(--ink);padding:13px 24px;border-radius:8px;font-size:15px;font-weight:600;transition:border-color .2s;display:inline-block;}
+  .btn-outline:hover{border-color:var(--coral);color:var(--coral);}
+
+  /* STATS */
+  .stats{display:flex;justify-content:center;gap:0;border:1px solid var(--border);border-radius:12px;margin:0 auto 80px;max-width:600px;overflow:hidden;}
+  .stat{flex:1;text-align:center;padding:22px 16px;border-right:1px solid var(--border);}
+  .stat:last-child{border-right:none;}
+  .stat strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;}
+  .stat span{font-size:13px;color:var(--slate);}
+
+  /* SECTION */
+  section{padding:64px 24px;border-top:1px solid var(--border);}
+  .section-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral);margin-bottom:12px;}
+  .section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,30px);font-weight:700;margin-bottom:36px;}
+
+  /* HOW */
+  .steps{display:flex;flex-direction:column;}
+  .step-row{display:flex;gap:20px;padding:24px 0;border-bottom:1px solid var(--border);}
+  .step-row:last-child{border-bottom:none;}
+  .step-num{width:32px;height:32px;border-radius:50%;background:var(--soft);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;margin-top:2px;}
+  .step-content h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;margin-bottom:6px;}
+  .step-content p{font-size:14.5px;color:var(--slate);}
+
+  /* FUNDING TYPES */
+  .type-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .type-card{border:1.5px solid var(--border);border-radius:12px;padding:24px;}
+  .type-card .tag{display:inline-block;font-size:12px;font-weight:600;background:var(--soft);padding:4px 10px;border-radius:20px;margin-bottom:14px;}
+  .type-card h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;margin-bottom:8px;}
+  .type-card p{font-size:13.5px;color:var(--slate);}
+  @media(max-width:520px){.type-cards{grid-template-columns:1fr;}}
+
+  /* FORM */
+  .form-wrap{max-width:560px;margin:0 auto;}
+  .progress-bar{height:4px;background:var(--border);border-radius:4px;margin-bottom:32px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--coral);border-radius:4px;transition:width .3s ease;}
+
+  .step-block{display:none;flex-direction:column;gap:20px;}
+  .step-block.active{display:flex;}
+  .step-block h3{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;}
+  .step-block .sub{font-size:14px;color:var(--slate);margin-top:-12px;}
+
+  .field{display:flex;flex-direction:column;gap:7px;}
+  .field label{font-size:13.5px;font-weight:500;}
+  .field input,.field textarea{
+    border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;
+    font-size:15px;font-family:'Inter',sans-serif;color:var(--ink);
+    transition:border-color .2s;background:var(--bg);
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--coral);}
+  .field textarea{resize:vertical;}
+
+  .choice-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .choice{border:1.5px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:border-color .2s,background .2s;}
+  .choice:hover{border-color:var(--coral);}
+  .choice.selected{border-color:var(--coral);background:#FFF5F3;}
+  .choice strong{display:block;font-size:14.5px;font-weight:600;margin-bottom:4px;}
+  .choice span{font-size:12.5px;color:var(--slate);}
+  @media(max-width:480px){.choice-row{grid-template-columns:1fr;}}
+
+  .step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+  .btn-next{background:var(--ink);color:#fff;padding:13px 24px;border-radius:8px;font-size:15px;font-weight:600;border:none;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:8px;}
+  .btn-next:hover:not(:disabled){background:var(--coral);}
+  .btn-next:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-back{background:none;border:none;color:var(--slate);font-size:14px;cursor:pointer;padding:4px 0;}
+  .btn-back:hover{color:var(--ink);}
+
+  /* spinner */
+  .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+  .spinner.show{display:block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* review */
+  .review-box{border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .review-row{display:flex;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:1px solid var(--border);font-size:14px;}
+  .review-row:last-child{border-bottom:none;}
+  .review-row .k{color:var(--slate);flex-shrink:0;}
+  .review-row .v{text-align:right;font-weight:500;word-break:break-word;}
+
+  /* done */
+  .done-screen{display:none;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:40px 0;}
+  .done-screen.active{display:flex;}
+  .done-icon{font-size:48px;}
+  .done-screen h3{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;}
+  .done-screen p{font-size:15px;color:var(--slate);max-width:400px;}
+  .contact-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
+  .cb{display:flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-size:14.5px;font-weight:600;transition:opacity .2s;}
+  .cb:hover{opacity:0.85;}
+  .cb.wa{background:#25D366;color:#fff;}
+  .cb.tg{background:#2AABEE;color:#fff;}
+  .cb.zg{background:#F59E0B;color:#fff;}
+  .done-note{font-size:13px;color:var(--slate);}
+
+  /* error */
+  .error-msg{background:#FFF5F3;border:1px solid #FECDC4;color:#B91C0C;border-radius:8px;padding:12px 16px;font-size:14px;display:none;}
+  .error-msg.show{display:block;}
+
+  footer{border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+  footer .logo{display:inline-block;margin-bottom:8px;}
+  footer p{font-size:13px;color:var(--slate);max-width:480px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">Young<em>.</em>Invest</span>
+  <a href="#apply" class="nav-btn">Apply for funding</a>
+</nav>
+
+<div class="hero">
+  <h1>Funding for young builders <em>everywhere</em></h1>
+  <p>We back early-stage founders and builders across the world — no warm introductions, no pitch decks. Just tell us what you're building.</p>
+  <div class="hero-actions">
+    <a href="#apply" class="btn-dark">Apply for funding</a>
+    <a href="#how" class="btn-outline">How it works</a>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="stats">
+    <div class="stat"><strong>Global</strong><span>Applicants worldwide</span></div>
+    <div class="stat"><strong>2 Ways</strong><span>Equity or revenue-share</span></div>
+    <div class="stat"><strong>Personal</strong><span>Every application read</span></div>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="section-label">How it works</div>
+    <div class="section-title">Three steps, simple as that</div>
+    <div class="steps">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Tell us what you're building</h3>
+          <p>A few short questions about you, your project, the problem it solves, and how much you need.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>We review it personally</h3>
+          <p>No algorithm. Every submission is read by a real person before any decision is made.</p>
+        </div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>We reach out to talk terms</h3>
+          <p>If it's a fit, we contact you directly to agree on terms — equity or revenue-share, your choice.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">Funding options</div>
+    <div class="section-title">Two ways to raise</div>
+    <div class="type-cards">
+      <div class="type-card">
+        <span class="tag">Equity</span>
+        <h3>Share of the company</h3>
+        <p>Give up a small percentage of ownership in exchange for capital. Best for founders looking to scale fast.</p>
+      </div>
+      <div class="type-card">
+        <span class="tag">Revenue share</span>
+        <h3>Pay from earnings</h3>
+        <p>Keep full ownership. Repay an agreed share of your revenue until the funding amount is covered.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="apply">
+  <div class="wrap">
+    <div class="section-label">Apply</div>
+    <div class="section-title">Submit your application</div>
+
+    <div class="form-wrap">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+
+      <!-- Step 1 -->
+      <div class="step-block active" data-step="1">
+        <h3>About you</h3>
+        <p class="sub">Tell us who you are and how to reach you.</p>
+        <div class="field"><label>Your name</label><input type="text" id="f_name" placeholder="Full name"></div>
+        <div class="field"><label>Your country</label><input type="text" id="f_country" placeholder="Where are you based?"></div>
+        <div class="field"><label>Phone or email</label><input type="text" id="f_contact" placeholder="Best way to reach you"></div>
+        <div class="step-actions">
+          <span></span>
+          <button class="btn-next" onclick="goNext(1)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-block" data-step="2">
+        <h3>Your project</h3>
+        <p class="sub">What are you building?</p>
+        <div class="field"><label>Project name</label><input type="text" id="f_project" placeholder="Name of your startup or project"></div>
+        <div class="field"><label>What problem does it solve?</label><textarea id="f_problem" rows="4" placeholder="Describe the problem and who it affects..."></textarea></div>
+        <div class="step-actions">
+          <button class="btn-back" onclick="goBack(2)">← Back</button>
+          <button class="btn-next" onclick="goNext(2)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-block" data-step="3">
+        <h3>The funding ask</h3>
+        <p class="sub">How much do you need and how would you prefer to raise it?</p>
+        <div class="field"><label>Amount needed (in USD)</label><input type="text" id="f_amount" placeholder="e.g. $5,000"></div>
+        <div class="field">
+          <label>Funding type</label>
+          <div class="choice-row">
+            <div class="choice" id="choiceEquity" onclick="selectType('Equity — share of company')">
+              <strong>Equity</strong><span>Give a share of your company</span>
+            </div>
+            <div class="choice" id="choiceRevenue" onclick="selectType('Revenue share — pay from earnings')">
+              <strong>Revenue share</strong><span>Pay back from earnings</span>
+            </div>
+          </div>
+        </div>
+        <div class="step-actions">
+          <button class="btn-back" onclick="goBack(3)">← Back</button>
+          <button class="btn-next" onclick="goNext(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-block" data-step="4">
+        <h3>Anything else?</h3>
+        <p class="sub">Optional — links, traction, why now. Anything you want us to know.</p>
+        <div class="field"><label>Additional info</label><textarea id="f_extra" rows="4" placeholder="Website, social links, early users, revenue, or anything else..."></textarea></div>
+        <div class="step-actions">
+          <button class="btn-back" onclick="goBack(4)">← Back</button>
+          <button class="btn-next" onclick="goNext(4)">Review application →</button>
+        </div>
+      </div>
+
+      <!-- Step 5: Review -->
+      <div class="step-block" data-step="5">
+        <h3>Review & send</h3>
+        <p class="sub">Check your answers before sending.</p>
+        <div class="review-box" id="reviewBox"></div>
+        <div class="error-msg" id="errorMsg">Something went wrong. Please try again or reach out on WhatsApp.</div>
+        <div class="step-actions">
+          <button class="btn-back" onclick="goBack(5)">← Back</button>
+          <button class="btn-next" id="submitBtn" onclick="submit()">
+            Send application
+            <div class="spinner" id="spinner"></div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Done -->
+      <div class="done-screen" id="doneScreen">
+        <div class="done-icon">✅</div>
+        <h3>Application received!</h3>
+        <p>We've saved your application and sent a notification to our team. We read every application personally — if it's a good fit, we'll reach out directly.</p>
+        <p><strong>You can also follow up here:</strong></p>
+        <div class="contact-buttons">
+          <a class="cb wa" href="https://wa.me/2349048810493" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+          <a class="cb tg" href="https://t.me/Obseverlogy" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            Telegram
+          </a>
+          <a class="cb zg" href="#" target="_blank" rel="noopener">⚡ Zangi</a>
+        </div>
+        <p class="done-note">Nigerian contact: +234 904 881 0493</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="logo">Young<em style="color:var(--coral);font-style:normal;">.</em>Invest</span>
+  <p>Backing young founders and builders across the world. Submitting an application does not guarantee funding. All terms are agreed personally with each founder.</p>
+</footer>
+
+<script>
+  // ─── PASTE YOUR GOOGLE APPS SCRIPT URL HERE ───
+  const SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+  // ──────────────────────────────────────────────
+
+  let step = 1;
+  const d = {};
+  let fundingType = '';
+
+  function showStep(n){
+    document.querySelectorAll('.step-block').forEach(el => el.classList.remove('active'));
+    const el = document.querySelector(`.step-block[data-step="${n}"]`);
+    if(el) el.classList.add('active');
+    document.getElementById('progressFill').style.width = `${(n/5)*100}%`;
+    step = n;
+  }
+
+  function collect(n){
+    if(n===1){ d.name=v('f_name'); d.country=v('f_country'); d.contact=v('f_contact'); }
+    if(n===2){ d.project=v('f_project'); d.problem=v('f_problem'); }
+    if(n===3){ d.amount=v('f_amount'); d.fundingType=fundingType; }
+    if(n===4){ d.extra=v('f_extra')||'Not provided'; }
+  }
+  function v(id){ return document.getElementById(id).value.trim(); }
+
+  function goNext(n){
+    collect(n);
+    if(n===1 && (!d.name||!d.contact)){ alert('Please enter your name and contact info.'); return; }
+    if(n===2 && (!d.project||!d.problem)){ alert('Please fill in your project name and the problem it solves.'); return; }
+    if(n===3 && (!d.amount||!d.fundingType)){ alert('Please enter the amount needed and choose a funding type.'); return; }
+    if(n===4){ buildReview(); }
+    showStep(n+1);
+  }
+
+  function goBack(n){ collect(n); showStep(n-1); }
+
+  function selectType(type){
+    fundingType = type;
+    document.getElementById('choiceEquity').classList.toggle('selected', type.startsWith('Equity'));
+    document.getElementById('choiceRevenue').classList.toggle('selected', type.startsWith('Revenue'));
+  }
+
+  function buildReview(){
+    const rows = [
+      ['Name',d.name],['Country',d.country],['Contact',d.contact],
+      ['Project',d.project],['Problem',d.problem],
+      ['Amount',d.amount],['Funding type',d.fundingType],['Extra info',d.extra]
+    ];
+    document.getElementById('reviewBox').innerHTML = rows.map(r =>
+      `<div class="review-row"><span class="k">${r[0]}</span><span class="v">${esc(r[1]||'—')}</span></div>`
+    ).join('');
+  }
+
+  function esc(s){ const el=document.createElement('div'); el.textContent=s; return el.innerHTML; }
+
+  async function submit(){
+    const btn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('spinner');
+    const errMsg = document.getElementById('errorMsg');
+    errMsg.classList.remove('show');
+    btn.disabled = true;
+    spinner.classList.add('show');
+    btn.childNodes[0].textContent = 'Sending... ';
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...d, submittedAt: new Date().toISOString() })
+      });
+      // no-cors means we can't read response, but if no error thrown it went through
+      showDone();
+    } catch(err) {
+      btn.disabled = false;
+      spinner.classList.remove('show');
+      btn.childNodes[0].textContent = 'Send application ';
+      errMsg.classList.add('show');
+    }
+  }
+
+  function showDone(){
+    document.querySelectorAll('.step-block').forEach(el => el.classList.remove('active'));
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('doneScreen').classList.add('active');
+  }
+</script>
+</body>
+</html>
